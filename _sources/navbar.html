@@ -1,0 +1,34 @@
+  <div class="bs-component">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#" class="pull-left"><img src="images/navbar_logo.png"></a>
+          <!-- <a class="navbar-brand" href="#">o0</a> -->
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li {% is index.html %}class="active"{% endis %}><a href="/">Home <span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Games <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Same Sweeper</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Ludum Dare 34</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li {% is contacts.html %}class="active"{% endis %}><a href="contacts.html">Contacts</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
