@@ -3,12 +3,12 @@ html {
     min-height: 100%;
 }
 body {
-    margin: 0 0 28px;
+    margin: 0 0 24px;
 }
 #sticky-footer {
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 28px;
+    height: 24px;
     width: 100%;
 }
