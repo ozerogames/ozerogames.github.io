@@ -1,14 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% include head.html %}
+  {% include templates/head.html %}
   <title>ozerogames ~ o0</title>  
 </head>
 <body>
-  {% include navbar.html %}
+  {% include templates/navbar.html %}
+  <div class="container-fluid">
+    <div class="row">
 
-  home
+    	<div class="col-xs-12 col-sm-6 col-md-8">
+        <h4>Who are we?</h4>
+        <p>There is no <i>we</i> in ozerogames (o0) - this is an imaginary entity for a one-man gamedev hobby.</p>
 
-  {% include footer.html %}
+        <h4>So who am I?</h4>
+        <p>My name is Matej, I like to think about making games and I'd love to actually make them. You can find me on <a href="https://twitter.com/rplnt">twitter</a> or <a href="https://github.com/rplnt">github</a>.</p>
+
+        <h4>What kind of games do you make?</h4>
+        <p>For now, you can find here simple casual games, primarily for mobile. See the <i>Games</i> section in the menu above.
+          I'd like work on more complex games eventually, but getting things done is my priority right now.</p>
+
+        <h4>I want to know more!</h4>
+        <p>Follow "us" on twitter (<a href="https://twitter.com/ozerogames">@ozerogames</a>) to get news and updates. For detailed progress (and some offtopic) you can follow me on my personal twitter (<a href="https://twitter.com/rplnt">@rplnt</a>). Feel free to ask any questions there or, if you prefer email, you can find it in the <a href="contacts.html">Contacts</a> section.</p>
+    	</div>
+
+    	<div class="col-xs-6 col-md-4">
+        <h4> News & Updates </h4>
+        <a class="twitter-timeline" data-chrome="nofooter noheader" data-dnt="true" href="https://twitter.com/ozerogames" data-widget-id="680695914047139840">Tweets by @ozerogames</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    	</div>
+
+    </div>
+  </div>
+  {% include templates/footer.html %}
 </body>
 </html>

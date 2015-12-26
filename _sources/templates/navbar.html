@@ -8,9 +8,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#" class="pull-left"><img src="images/navbar_logo.png"></a>
-          <!-- <a class="navbar-brand" href="#">o0</a> -->
+          <a href="/" class="pull-left"><img src="/images/navbar_logo.png"></a>
+          <!-- <a class="navbar-brand" href="#">ozerogames</a> -->
+          <span class="navbar-brand" style="position: absolute; width: 100%; left: 0; text-align: center; margin: auto;">ozerogames</span>
         </div>
+
+        
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
@@ -18,15 +21,15 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Games <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="samesweeper.html">Same Sweeper</a></li>
-                <!-- <li class="divider"></li>
-                <li><a href="#"></a></li> -->
+                <li {% is samesweeper.html %}class="active"{% endis %}><a href="/games/samesweeper.html">Same Sweeper <i>(in development)</i></a></li>
+                <li class="divider"></li>
+                <li {% is gamejams.html %}class="active"{% endis %}><a href="/games/gamejams.html">Gamejams</a></li>
               </ul>
             </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li {% is contacts.html %}class="active"{% endis %}><a href="contacts.html">Contacts</a></li>
+            <li {% is contacts.html %}class="active"{% endis %}><a href="/contacts.html">Contacts</a></li>
           </ul>
         </div>
       </div>
