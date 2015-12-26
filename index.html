@@ -7,9 +7,11 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/footer.css" rel="stylesheet">
+<!-- <link href="css/bootstrap-theme.min.css" rel="stylesheet"> -->
 
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" href="/favicon.ico">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,9 +33,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#" class="pull-left"><img src="images/navbar_logo.png"></a>
-          <!-- <a class="navbar-brand" href="#">o0</a> -->
+          <a href="/" class="pull-left"><img src="/images/navbar_logo.png"></a>
+          <!-- <a class="navbar-brand" href="#">ozerogames</a> -->
+          <span class="navbar-brand" style="position: absolute; width: 100%; left: 0; text-align: center; margin: auto;">ozerogames</span>
         </div>
+
+        
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
@@ -41,28 +46,58 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Games <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="samesweeper.html">Same Sweeper</a></li>
-                <!-- <li class="divider"></li>
-                <li><a href="#"></a></li> -->
+                <li ><a href="/games/samesweeper.html">Same Sweeper <i>(in development)</i></a></li>
+                <li class="divider"></li>
+                <li ><a href="/games/gamejams.html">Gamejams</a></li>
               </ul>
             </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li ><a href="contacts.html">Contacts</a></li>
+            <li ><a href="/contacts.html">Contacts</a></li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
 
+  <div class="container-fluid">
+    <div class="row">
 
-  home
+    	<div class="col-xs-12 col-sm-6 col-md-8">
+        <h4>Who are we?</h4>
+        <p>There is no <i>we</i> in ozerogames (o0) - this is an imaginary entity for a one-man gamedev hobby.</p>
 
+        <h4>So who am I?</h4>
+        <p>My name is Matej, I like to think about making games and I'd love to actually make them. You can find me on <a href="https://twitter.com/rplnt">twitter</a> or <a href="https://github.com/rplnt">github</a>.</p>
+
+        <h4>What kind of games do you make?</h4>
+        <p>For now, you can find here simple casual games, primarily for mobile. See the <i>Games</i> section in the menu above.
+          I'd like work on more complex games eventually, but getting things done is my priority right now.</p>
+
+        <h4>I want to know more!</h4>
+        <p>Follow "us" on twitter (<a href="https://twitter.com/ozerogames">@ozerogames</a>) to get news and updates. For detailed progress (and some offtopic) you can follow me on my personal twitter (<a href="https://twitter.com/rplnt">@rplnt</a>). Feel free to ask any questions there, or if you prefer email, you can find it in the <a href="contacts.html">Contacts</a> section.</p>
+    	</div>
+
+    	<div class="col-xs-6 col-md-4">
+        <h4> News & Updates </h4>
+        <a class="twitter-timeline" data-chrome="nofooter noheader" data-dnt="true" href="https://twitter.com/ozerogames" data-widget-id="680695914047139840">Tweets by @ozerogames</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    	</div>
+
+    </div>
+    <div id="sticky-footer">
+  <div class="container text-center">
+    <p class="text-muted col-md-12 col-sm-12 col-xs-12">&copy; ozerogames.com</p>
+  </div>
+<div>
+
+  </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="/js/bootstrap.min.js"></script> -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
   <!-- Google Analytics -->
   <script>
