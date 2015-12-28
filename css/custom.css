@@ -15,3 +15,6 @@ body {
 .container-fluid {
 	max-width: 1196px;
 }
+.store-badge {
+	padding-bottom: 10px;
+}
