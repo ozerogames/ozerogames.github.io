@@ -12,3 +12,6 @@ body {
     height: 32px;
     width: 100%;
 }
+.container-fluid {
+	max-width: 1196px;
+}
