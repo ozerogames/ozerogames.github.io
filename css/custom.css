@@ -18,3 +18,13 @@ body {
 .store-badge {
 	padding-bottom: 10px;
 }
+.navbar-center {
+  float: left;
+  position: relative;
+  right: -26%; /* adjust if adding more links */
+  text-align: right;
+}
+.navbar-text:hover {
+	color: white;
+	text-decoration: none;
+}
