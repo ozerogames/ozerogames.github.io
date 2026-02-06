@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>CMYK</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #1a1a2e;
+      touch-action: none;
+    }
+    #game-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    canvas {
+      display: block;
+    }
+    #dev-controls {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font: 12px monospace;
+      color: #888;
+      z-index: 10;
+    }
+    #dev-controls .control-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #dev-controls input[type="range"] {
+      width: 120px;
+    }
+    #dev-log {
+      max-height: 160px;
+      overflow-y: auto;
+      font: 11px monospace;
+      color: #999;
+      border-top: 1px solid #333;
+      margin-top: 4px;
+      padding-top: 4px;
+      line-height: 1.4;
+    }
+    #dev-log .log-spawn { color: #7cf; }
+    #dev-log .log-lock  { color: #ccc; }
+    #dev-log .log-clear { color: #fc0; }
+    #dev-log .log-chain { color: #f66; }
+    #dev-log .log-gravity { color: #8d8; }
+  </style>
+  <script type="module" crossorigin src="./assets/index-BtAziHtC.js"></script>
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="dev-controls" style="display:none">
+    <div class="control-row">
+      <label for="speed-slider">Sim:</label>
+      <input id="speed-slider" type="range" min="0" max="5" step="0.1" value="1" />
+      <span id="speed-value">1.0x</span>
+    </div>
+    <div class="control-row">
+      <label for="drop-slider">Drop:</label>
+      <input id="drop-slider" type="range" min="100" max="3000" step="50" value="500" />
+      <span id="drop-value">500ms</span>
+    </div>
+    <div class="control-row">Speed: <span id="dev-speed">750</span>ms</div>
+    <div class="control-row">Pieces: <span id="dev-pieces">0</span></div>
+    <div class="control-row">Blocks: <span id="dev-blocks">0</span></div>
+    <div id="dev-log"></div>
+  </div>
+  <script>if(location.search.includes('dev'))document.getElementById('dev-controls').style.display='';</script>
+</body>
+</html>

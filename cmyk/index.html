@@ -2,83 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CMYK</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 100%;
       height: 100%;
-      overflow: hidden;
-      background: #1a1a2e;
-      touch-action: none;
-    }
-    #game-container {
-      width: 100%;
-      height: 100%;
+      background: #fff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    canvas {
-      display: block;
-    }
-    #dev-controls {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
+    .chooser {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font: 12px monospace;
-      color: #888;
-      z-index: 10;
-    }
-    #dev-controls .control-row {
-      display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 40px;
     }
-    #dev-controls input[type="range"] {
-      width: 120px;
+    .title {
+      font-size: 48px;
+      font-weight: 200;
+      letter-spacing: 6px;
+      display: flex;
+      align-items: flex-start;
     }
-    #dev-log {
-      max-height: 160px;
-      overflow-y: auto;
-      font: 11px monospace;
-      color: #999;
-      border-top: 1px solid #333;
-      margin-top: 4px;
-      padding-top: 4px;
-      line-height: 1.4;
+    .title .c { color: #00ffff; }
+    .title .m { color: #ff00ff; }
+    .title .y { color: #ffff00; }
+    .title .k { color: #000000; }
+    .cards {
+      display: flex;
+      gap: 24px;
     }
-    #dev-log .log-spawn { color: #7cf; }
-    #dev-log .log-lock  { color: #ccc; }
-    #dev-log .log-clear { color: #fc0; }
-    #dev-log .log-chain { color: #f66; }
-    #dev-log .log-gravity { color: #8d8; }
+    .card {
+      width: 160px;
+      height: 200px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-decoration: none;
+      color: #333;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .card:hover {
+      border-color: #999;
+      transform: translateY(-4px);
+    }
+    .card-label {
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    .card-sub {
+      font-size: 11px;
+      font-weight: 300;
+      color: #aaa;
+    }
+    .card-icon {
+      display: flex;
+      gap: 3px;
+    }
+    .card-icon .block {
+      width: 18px;
+      height: 18px;
+      border-radius: 2px;
+    }
+    .card-t .card-icon .block {
+      width: 14px;
+      height: 14px;
+    }
+    .card-t .card-icon {
+      display: grid;
+      grid-template-columns: 14px 14px 14px;
+      gap: 2px;
+    }
   </style>
-  <script type="module" crossorigin src="./assets/index-eBecBkZu.js"></script>
 </head>
 <body>
-  <div id="game-container"></div>
-  <div id="dev-controls" style="display:none">
-    <div class="control-row">
-      <label for="speed-slider">Sim:</label>
-      <input id="speed-slider" type="range" min="0" max="5" step="0.1" value="1" />
-      <span id="speed-value">1.0x</span>
+  <div class="chooser">
+    <div class="title">
+      <span class="c">C</span><span class="m">M</span><span class="y">Y</span><span class="k">K</span>
     </div>
-    <div class="control-row">
-      <label for="drop-slider">Drop:</label>
-      <input id="drop-slider" type="range" min="100" max="3000" step="50" value="500" />
-      <span id="drop-value">500ms</span>
+    <div class="cards">
+      <a class="card card-classic" href="./classic/">
+        <div class="card-icon">
+          <div class="block" style="background: #00ffff;"></div>
+          <div class="block" style="background: #ff00ff;"></div>
+          <div class="block" style="background: #ffff00;"></div>
+        </div>
+        <div class="card-label">classic</div>
+        <div class="card-sub">1-3 block pieces</div>
+      </a>
+      <a class="card card-t" href="./t/">
+        <div class="card-icon">
+          <div class="block" style="background: transparent;"></div>
+          <div class="block" style="background: #00ffff;"></div>
+          <div class="block" style="background: transparent;"></div>
+          <div class="block" style="background: #00ffff;"></div>
+          <div class="block" style="background: #00ffff;"></div>
+          <div class="block" style="background: #00ffff;"></div>
+        </div>
+        <div class="card-label">tetromino</div>
+        <div class="card-sub">shaped pieces</div>
+      </a>
     </div>
-    <div class="control-row">Speed: <span id="dev-speed">750</span>ms</div>
-    <div class="control-row">Pieces: <span id="dev-pieces">0</span></div>
-    <div class="control-row">Blocks: <span id="dev-blocks">0</span></div>
-    <div id="dev-log"></div>
   </div>
-  <script>if(location.search.includes('dev'))document.getElementById('dev-controls').style.display='';</script>
 </body>
 </html>
