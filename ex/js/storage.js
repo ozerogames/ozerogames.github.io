@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'excel-macro-formulas';
+const LIBRARY_KEY = 'excel-macro-rule-library';
 
 function _read() {
   try {
@@ -68,6 +69,42 @@ export const storage = {
 
   exportAll() {
     return JSON.stringify(_read(), null, 2);
+  },
+
+  // --- Rule Library ---
+
+  listLibraryRules() {
+    try {
+      const raw = localStorage.getItem(LIBRARY_KEY);
+      if (!raw) return [];
+      const data = JSON.parse(raw);
+      return Object.values(data.rules || {})
+        .sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
+    } catch {
+      return [];
+    }
+  },
+
+  saveLibraryRule(rule) {
+    let data;
+    try {
+      data = JSON.parse(localStorage.getItem(LIBRARY_KEY)) || { rules: {} };
+    } catch {
+      data = { rules: {} };
+    }
+    if (!rule.id) rule.id = 'lr_' + Date.now();
+    rule.savedAt = new Date().toISOString();
+    data.rules[rule.id] = rule;
+    localStorage.setItem(LIBRARY_KEY, JSON.stringify(data));
+    return rule.id;
+  },
+
+  deleteLibraryRule(id) {
+    try {
+      const data = JSON.parse(localStorage.getItem(LIBRARY_KEY)) || { rules: {} };
+      delete data.rules[id];
+      localStorage.setItem(LIBRARY_KEY, JSON.stringify(data));
+    } catch { /* ignore */ }
   },
 
   importAll(json) {

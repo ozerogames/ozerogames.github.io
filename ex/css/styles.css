@@ -456,6 +456,19 @@ select {
   flex-wrap: wrap;
 }
 
+.condition-row.condition-warning {
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+  margin-left: -6px;
+  margin-right: -6px;
+}
+
+.condition-row.condition-warning select,
+.condition-row.condition-warning input {
+  border-color: var(--warning);
+}
+
 .condition-row select {
   min-width: 100px;
 }
@@ -712,6 +725,83 @@ select {
 .logic-toggle button.active {
   background: var(--accent);
   color: var(--accent-fg);
+}
+
+/* === Rule Library Modal === */
+.library-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.library-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  width: 480px;
+  max-width: 90vw;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.library-modal-body {
+  padding: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.library-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  gap: 12px;
+}
+
+.library-item:hover {
+  background: var(--surface-hover);
+}
+
+.library-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.library-item-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.library-item-detail {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.library-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 /* === Scrollbar === */

@@ -238,8 +238,10 @@ function renderConditionRow(cond, ci, prefix, ruleIdx, colOptions) {
        </select>`
     : `<input type="text" value="${esc(cond.column)}" placeholder="Col letter" data-action="${prefix}-column"${ruleAttr} data-cond="${ci}" style="max-width:80px" aria-label="Column letter">`;
 
+  const missingCol = !cond.column;
+
   return `
-    <div class="condition-row" data-cond-index="${ci}">
+    <div class="condition-row${missingCol ? ' condition-warning' : ''}" data-cond-index="${ci}">
       ${colSelect}
       <select data-action="${prefix}-type"${ruleAttr} data-cond="${ci}" aria-label="Condition type">
         ${conditionTypeOptions(cond.type)}
@@ -286,7 +288,8 @@ function renderRules() {
           <div class="rule-actions">
             <button class="btn-icon" data-action="move-rule-up" data-rule="${ri}" title="Move up" aria-label="Move up" ${ri === 0 ? 'disabled' : ''}>&uarr;</button>
             <button class="btn-icon" data-action="move-rule-down" data-rule="${ri}" title="Move down" aria-label="Move down" ${ri === state.rules.length - 1 ? 'disabled' : ''}>&darr;</button>
-            <button class="btn-icon" data-action="clone-rule" data-rule="${ri}" title="Clone rule" aria-label="Clone rule">&#9851;</button>
+            <button class="btn-icon" data-action="save-to-library" data-rule="${ri}" title="Save to library" aria-label="Save to library">&#9733;</button>
+            <button class="btn-icon" data-action="clone-rule" data-rule="${ri}" title="Clone rule" aria-label="Clone rule">&#10697;</button>
             <button class="btn-icon" data-action="remove-rule" data-rule="${ri}" title="Delete rule" aria-label="Delete rule">&times;</button>
           </div>
         </div>
@@ -712,6 +715,7 @@ document.getElementById('prefilter-body').addEventListener('change', (e) => {
     schedulePreview();
   } else if (action === 'pf-cond-column') {
     state.preFilter.conditions[ci].column = el.value;
+    renderPreFilter();
     schedulePreview();
   } else if (action === 'pf-cond-type') {
     state.preFilter.conditions[ci].type = el.value;
@@ -730,6 +734,8 @@ document.getElementById('prefilter-body').addEventListener('input', (e) => {
     schedulePreview();
   } else if (action === 'pf-cond-column' && el.tagName === 'INPUT') {
     state.preFilter.conditions[ci].column = el.value;
+    const row = el.closest('.condition-row');
+    if (row) row.classList.toggle('condition-warning', !el.value);
     schedulePreview();
   }
 });
@@ -777,6 +783,19 @@ document.getElementById('rules-container').addEventListener('click', (e) => {
       renderRules();
       schedulePreview();
       break;
+    case 'save-to-library': {
+      const rule = state.rules[ri];
+      const name = prompt('Name for this library rule:', rule.label || `Rule ${ri + 1}`);
+      if (!name) break;
+      storage.saveLibraryRule({
+        name,
+        conditionLogic: rule.conditionLogic,
+        conditions: rule.conditions.map(c => ({ ...c })),
+        output: rule.output
+      });
+      showToast('Rule saved to library');
+      break;
+    }
     case 'toggle-rule-collapse': {
       const id = state.rules[ri].id;
       if (collapsedRules.has(id)) collapsedRules.delete(id);
@@ -787,10 +806,12 @@ document.getElementById('rules-container').addEventListener('click', (e) => {
   }
 });
 
-// Rules section header (Add Rule button)
+// Rules section header (Add Rule / Insert from Library)
 document.getElementById('rules-section').querySelector('.card-header').addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-action="add-rule"]');
-  if (btn) addRule();
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  if (btn.dataset.action === 'add-rule') addRule();
+  if (btn.dataset.action === 'insert-from-library') showLibraryModal();
 });
 
 document.getElementById('rules-container').addEventListener('input', (e) => {
@@ -814,6 +835,9 @@ document.getElementById('rules-container').addEventListener('input', (e) => {
     case 'rule-cond-column':
       if (el.tagName === 'INPUT') {
         state.rules[ri].conditions[ci].column = el.value;
+        // Update warning class on the condition row
+        const row = el.closest('.condition-row');
+        if (row) row.classList.toggle('condition-warning', !el.value);
         schedulePreview();
       }
       break;
@@ -833,6 +857,7 @@ document.getElementById('rules-container').addEventListener('change', (e) => {
   switch (action) {
     case 'rule-cond-column':
       state.rules[ri].conditions[ci].column = el.value;
+      renderRules();
       schedulePreview();
       break;
     case 'rule-cond-type':
@@ -965,6 +990,91 @@ document.getElementById('import-file').addEventListener('change', (e) => {
   reader.readAsText(file);
   e.target.value = ''; // reset so same file can be imported again
 });
+
+// --- Rule Library Modal ---
+
+function showLibraryModal() {
+  const rules = storage.listLibraryRules();
+  if (rules.length === 0) {
+    showToast('Rule library is empty — save rules with the ★ button');
+    return;
+  }
+
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'library-overlay';
+  overlay.innerHTML = `
+    <div class="library-modal">
+      <div class="library-modal-header">
+        <span>Rule Library</span>
+        <button class="btn-icon" data-action="close-library" aria-label="Close">&times;</button>
+      </div>
+      <div class="library-modal-body">
+        ${rules.map(r => `
+          <div class="library-item" data-library-id="${r.id}">
+            <div class="library-item-info">
+              <div class="library-item-name">${esc(r.name)}</div>
+              <div class="library-item-detail">${r.conditions.length} condition${r.conditions.length !== 1 ? 's' : ''}${r.output ? ' · ' + esc(r.output) : ''}</div>
+            </div>
+            <div class="library-item-actions">
+              <button class="btn btn-sm btn-primary" data-action="insert-library-rule" data-library-id="${r.id}">Insert</button>
+              <button class="btn-icon" data-action="delete-library-rule" data-library-id="${r.id}" title="Delete" aria-label="Delete library rule">&times;</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.closest('[data-action="close-library"]')) {
+      overlay.remove();
+      return;
+    }
+
+    const insertBtn = e.target.closest('[data-action="insert-library-rule"]');
+    if (insertBtn) {
+      const libRule = rules.find(r => r.id === insertBtn.dataset.libraryId);
+      if (libRule) insertLibraryRule(libRule);
+      overlay.remove();
+      return;
+    }
+
+    const delBtn = e.target.closest('[data-action="delete-library-rule"]');
+    if (delBtn) {
+      storage.deleteLibraryRule(delBtn.dataset.libraryId);
+      overlay.remove();
+      showLibraryModal(); // re-open with updated list
+    }
+  });
+
+  document.body.appendChild(overlay);
+}
+
+function insertLibraryRule(libRule) {
+  const currentCols = new Set(getColumnOptions());
+
+  // Deep-copy conditions, clear column if it doesn't exist in current formula
+  const conditions = libRule.conditions.map(c => {
+    const copy = { ...c };
+    if (copy.column && !currentCols.has(copy.column)) {
+      copy.column = ''; // leave blank — will show as unset in dropdown
+    }
+    return copy;
+  });
+
+  const newRule = {
+    id: generateRuleId(),
+    label: libRule.name || '',
+    conditionLogic: libRule.conditionLogic || 'AND',
+    conditions,
+    output: libRule.output || ''
+  };
+
+  state.rules.push(newRule);
+  renderRules();
+  schedulePreview();
+  showToast('Rule inserted from library');
+}
 
 // --- Init ---
 

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Excel Macro Generator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23217346'/><text x='50' y='72' font-size='60' font-family='Arial,sans-serif' font-weight='bold' fill='white' text-anchor='middle'>fx</text></svg>">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -53,7 +54,10 @@
       <section class="card" id="rules-section">
         <div class="card-header">
           <span>Rules (first match wins)</span>
-          <button class="btn btn-sm btn-primary" data-action="add-rule">+ Add Rule</button>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm btn-primary" data-action="add-rule">+ Add Rule</button>
+            <button class="btn btn-sm" data-action="insert-from-library">From Library</button>
+          </div>
         </div>
         <div class="card-body" id="rules-container"></div>
       </section>
