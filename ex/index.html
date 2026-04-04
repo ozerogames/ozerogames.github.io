@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Macro Generator</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Excel Macro Generator</h1>
+    <div class="header-actions">
+      <button class="btn btn-sm" id="btn-import" title="Import formulas from JSON" aria-label="Import formulas">Import</button>
+      <button class="btn btn-sm" id="btn-export" title="Export all formulas as JSON" aria-label="Export formulas">Export</button>
+      <button class="btn-icon" id="btn-theme" title="Toggle theme" aria-label="Toggle theme">&#9790;</button>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <button class="btn btn-primary" id="btn-new" style="width:100%">+ New Formula</button>
+      <input type="text" id="sidebar-search" placeholder="Search formulas..." aria-label="Search saved formulas" class="sidebar-search">
+      <div class="sidebar-title">Saved Formulas</div>
+      <div class="sidebar-list" id="sidebar-list"></div>
+    </aside>
+
+    <main class="main-content">
+      <section class="card">
+        <div class="card-body">
+          <div class="save-row">
+            <label for="formula-name" class="sr-only">Formula name</label>
+            <input type="text" id="formula-name" placeholder="Formula name..." aria-label="Formula name">
+            <button class="btn btn-primary" id="btn-save">Save</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="column-setup">
+        <div class="card-header collapsible" id="column-setup-header">
+          <span>Column Setup</span>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="card-body" id="column-setup-body"></div>
+      </section>
+
+      <section class="card" id="prefilter-section">
+        <div class="card-header">
+          <span>Pre-Filter (global AND on all rules)</span>
+        </div>
+        <div class="card-body" id="prefilter-body"></div>
+      </section>
+
+      <section class="card" id="rules-section">
+        <div class="card-header">
+          <span>Rules (first match wins)</span>
+          <button class="btn btn-sm btn-primary" data-action="add-rule">+ Add Rule</button>
+        </div>
+        <div class="card-body" id="rules-container"></div>
+      </section>
+
+      <section class="card" id="formula-section">
+        <div class="card-header">Generated Formula</div>
+        <div class="card-body" style="padding:0">
+          <div class="formula-preview" id="formula-output"></div>
+          <div class="formula-warning" id="formula-warning" style="display:none"></div>
+          <div class="formula-actions">
+            <button class="btn btn-sm" id="btn-copy">Copy</button>
+            <button class="btn btn-sm" id="btn-share">Share Link</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="help-panel" id="help-panel">
+      <div class="help-title">Quick Reference</div>
+
+      <div class="help-section">
+        <div class="help-heading">Output Templates</div>
+        <p>Use <code>{...}</code> in output fields. Literals outside braces are kept as-is.</p>
+      </div>
+
+      <div class="help-section">
+        <div class="help-heading">Column Refs</div>
+        <table class="help-table">
+          <tr><td><code>{Period}</code></td><td>Cell value by header</td></tr>
+          <tr><td><code>{A}</code></td><td>Cell value by letter</td></tr>
+        </table>
+      </div>
+
+      <div class="help-section">
+        <div class="help-heading">Date Functions</div>
+        <table class="help-table">
+          <tr><td><code>{period(Col)}</code></td><td>1st of month</td></tr>
+          <tr><td><code>{period_plus(Col,N)}</code></td><td>1st of month + N months</td></tr>
+          <tr><td><code>{period_minus(Col,N)}</code></td><td>1st of month - N months</td></tr>
+          <tr><td><code>{year(Col)}</code></td><td>Year</td></tr>
+          <tr><td><code>{month(Col)}</code></td><td>Month</td></tr>
+          <tr><td><code>{day(Col)}</code></td><td>Day</td></tr>
+        </table>
+      </div>
+
+      <div class="help-section">
+        <div class="help-heading">Text Functions</div>
+        <table class="help-table">
+          <tr><td><code>{upper(Col)}</code></td><td>UPPER</td></tr>
+          <tr><td><code>{lower(Col)}</code></td><td>LOWER</td></tr>
+          <tr><td><code>{trim(Col)}</code></td><td>TRIM</td></tr>
+          <tr><td><code>{left(Col,N)}</code></td><td>First N chars</td></tr>
+          <tr><td><code>{right(Col,N)}</code></td><td>Last N chars</td></tr>
+          <tr><td><code>{mid(Col,S,N)}</code></td><td>Substring</td></tr>
+          <tr><td><code>{text(Col,"fmt")}</code></td><td>TEXT format</td></tr>
+        </table>
+      </div>
+
+      <div class="help-section">
+        <div class="help-heading">Examples</div>
+        <div class="help-example"><code>PPV-{period(Period)}</code></div>
+        <div class="help-example"><code>{upper(Source)}-{A}</code></div>
+        <div class="help-example"><code>Rev-{period_minus(Period,1)}</code></div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-heading">Condition Types</div>
+        <table class="help-table">
+          <tr><td>equals</td><td>Exact match</td></tr>
+          <tr><td>contains</td><td>Substring search</td></tr>
+          <tr><td>not contains</td><td>No substring</td></tr>
+          <tr><td>starts/ends with</td><td>Prefix/suffix</td></tr>
+          <tr><td>one of</td><td>Match any in list</td></tr>
+          <tr><td>&gt; &lt; &gt;= &lt;=</td><td>Comparisons</td></tr>
+          <tr><td>is empty / not empty</td><td>Blank check</td></tr>
+        </table>
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <input type="file" id="import-file" accept=".json" style="display:none">
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
